@@ -14,12 +14,9 @@ CREATE TABLE customer (firstname VARCHAR(100) NOT NULL,
                        streetnumber INTEGER,streetname VARCHAR(250),
                        city VARCHAR(250),phone VARCHAR(20) unique not null);
 
-
 CREATE TABLE Products(product_number varchar(250) PRIMARY KEY,
                       department VARCHAR(100) NOT NULL,
 	                    price money not null);
-
-
 
 CREATE TABLE Purchases(purchase_date date not null,
                        product_number VARCHAR(250) references products(product_number),
@@ -33,14 +30,14 @@ CREATE TABLE Purchases(purchase_date date not null,
 # import the necessary libraries, psycopg2 is for linking python and sql
 import psycopg2 as pg2
 import pandas as pd
-# connection my database in postgres to python.
+# connecting my database in postgres to python.
 conn=pg2.connect(database='Data Wrangler',user='postgres',password='12345678')
 cur = conn.cursor()
 # reading the Customers csv file 
 df_state=pd.read_csv('Customers.csv')
 # finding if there is any duplicates
 df_state[df_state.duplicated(['email'],keep=False)]
-# dropping out the duplicates, keeping the first ones,since the second duplicate email shouldnt be allowed.
+# dropping out the duplicates, keeping the first ones,since the second duplicate email shouldnt be allowed. an duplicate email was found.
 df_state.drop_duplicates(keep='first',subset=['email'],inplace=True)
 df_state.drop(df_state.columns[df_state.columns.str.contains('Unnamed',case = False)],axis = 1, inplace = True)
 # saving the new dataset to the csv file
@@ -62,7 +59,7 @@ conn.commit()
 # reading the purchases csv file 
 df_state2=pd.read_csv('purchases.csv')
 df_state2
-# removing the unnamed column (blank columns)
+# removing the unnamed columns (blank columns exist)
 df_state2.drop(df_state2.columns[df_state2.columns.str.contains('Unnamed',case = False)],axis = 1, inplace = True)
 # saving the new dataset to the csv file
 df_state2.to_csv('purchases.csv',index=False)
