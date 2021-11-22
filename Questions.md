@@ -16,11 +16,11 @@ CREATE TABLE customer (firstname VARCHAR(100) NOT NULL,
 
 CREATE TABLE Products(product_number varchar(250) PRIMARY KEY,
                       department VARCHAR(100) NOT NULL,
-	                    price money not null);
+	              price money not null);
 
 CREATE TABLE Purchases(purchase_date date not null,
                        product_number VARCHAR(250) references products(product_number),
-	                      email VARCHAR(250) not null references customer(email));
+	               email VARCHAR(250) not null references customer(email));
 ```
 
 # Question 2
